@@ -24,8 +24,8 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Install Laravel dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+# Install Laravel dependencies (using update to avoid composer.lock conflicts)
+RUN composer update --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
