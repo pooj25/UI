@@ -45,7 +45,7 @@ php artisan key:generate\n\
 touch database/database.sqlite\n\
 php artisan migrate --force\n\
 php artisan db:seed --class=DemoDataSeeder --force\n\
-chown www-data:www-data database/database.sqlite\n\
+chown -R www-data:www-data database/\n\
 apache2-foreground\n\
 " > /start.sh && chmod +x /start.sh
 
