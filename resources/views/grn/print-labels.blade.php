@@ -33,6 +33,10 @@
         .label .supplier { font-size: 7pt; color: #777; }
         .label .status   { font-size: 7pt; background:#e0f2fe;color:#0891b2;border-radius:3px;padding:1px 5px;display:inline-block;margin-top:1mm; }
         .no-print { margin-bottom: 6mm; }
+        body { color: #edf3ee; background: radial-gradient(ellipse at 80% 0%, rgba(53,99,78,0.15), transparent 30rem), #0b1113; }
+        .label { box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+        .no-print button { background: #c4f06b !important; color: #17200e !important; border-radius: 6px !important; font-weight: 700; }
+        .no-print a { color: #c4f06b !important; }
         @media print {
             .no-print { display: none !important; }
             body { padding: 5mm; }

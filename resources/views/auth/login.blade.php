@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In — Track Tech Fabric System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -142,6 +142,59 @@
             body { grid-template-columns: 1fr; }
             .left-panel { display: none; }
             .right-panel { padding: 2rem 1.5rem; }
+        }
+        :root { color-scheme: dark; }
+        body { font-family: 'DM Sans', sans-serif; color: #edf3ee; background: #0b1113; }
+        .left-panel {
+            background: radial-gradient(ellipse at 18% 15%, rgba(94,208,160,0.2), transparent 55%), radial-gradient(ellipse at 88% 84%, rgba(224,164,119,0.12), transparent 48%), #10191a;
+        }
+        .left-panel::before {
+            background-image: linear-gradient(rgba(185,208,192,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(185,208,192,0.035) 1px, transparent 1px);
+            background-size: 34px 34px;
+        }
+        .brand-badge { background: rgba(196,240,107,0.08); border-color: rgba(196,240,107,0.2); border-radius: 6px; }
+        .brand-badge .dot { background: #c4f06b; box-shadow: 0 0 10px rgba(196,240,107,0.48); }
+        .brand-badge span, .left-panel h1 span { color: #c4f06b; }
+        .left-panel h1 { color: #edf3ee; }
+        .left-panel p { color: #a4b1aa; }
+        .feature-list li { color: #c7d2cb; }
+        .feature-list li i { color: #5ed0a0; }
+        .left-footer { color: #718078; }
+        .right-panel { background: radial-gradient(ellipse at 78% 10%, rgba(53,99,78,0.1), transparent 30rem), #0b1113; }
+        .login-box {
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            border: 1px solid rgba(191,211,197,0.14);
+            border-radius: 8px;
+            background: rgba(20,29,31,0.78);
+            box-shadow: 0 22px 60px rgba(0,0,0,0.25);
+            backdrop-filter: blur(18px);
+        }
+        .login-box h2 { color: #edf3ee; }
+        .login-box .sub { color: #899894; }
+        .form-label { color: #c7d2cb; }
+        .input-wrap i.icon { color: #82918a; }
+        .input-wrap input {
+            color: #edf3ee;
+            background: rgba(7,13,14,0.55);
+            border: 1px solid rgba(191,211,197,0.17);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .input-wrap input::placeholder { color: #74827b; }
+        .input-wrap input:focus { border-color: rgba(196,240,107,0.62); box-shadow: 0 0 0 3px rgba(196,240,107,0.1); }
+        .input-wrap input.is-invalid { border-color: #ff8a7d; }
+        .error-msg { color: #ffaaa2; }
+        .alert-error { color: #ffaaa2; background: rgba(255,138,125,0.08); border-color: rgba(255,138,125,0.2); border-radius: 6px; }
+        .check-row { color: #a4b1aa; }
+        .check-row input[type="checkbox"] { accent-color: #c4f06b; }
+        .btn-sign-in { color: #17200e; background: #c4f06b; border-radius: 6px; }
+        .btn-sign-in:hover { color: #17200e; background: #d4f58a; box-shadow: 0 8px 24px rgba(196,240,107,0.18); }
+        .divider { background: rgba(191,211,197,0.13); }
+        .hint-box { color: #b8c8bd; background: rgba(94,208,160,0.06); border-color: rgba(94,208,160,0.16); border-radius: 6px; }
+        .hint-box strong { color: #91e2b4; }
+        @media (max-width: 768px) {
+            .right-panel { min-height: 100vh; padding: 1.25rem; }
+            .login-box { padding: 1.5rem; }
         }
     </style>
 </head>

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             FabricSeeder::class,
             FabricGroupSeeder::class,
             LayModelSeeder::class,
+            DemoDataSeeder::class,
         ]);
     }
 }
