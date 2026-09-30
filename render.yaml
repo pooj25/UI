@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: track-tech-erp
+    env: php
+    buildCommand: |
+      composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+      cp .env.example .env
+      php artisan key:generate
+      touch database/database.sqlite
+      php artisan migrate --force
+      php artisan db:seed --class=DemoDataSeeder --force
+    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
+    envVars:
+      - key: APP_NAME
+        value: TrackTech
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: sqlite
