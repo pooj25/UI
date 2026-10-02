@@ -267,10 +267,77 @@
                     <td><span class="ops-badge badge-open">{{ $po->status }}</span></td>
                     <td class="text-end">
                         <div class="d-flex gap-1 justify-content-end">
-                            <button class="tbl-btn tbl-btn-primary"><i class="bi bi-box-arrow-up-right"></i> Open</button>
+                            <button class="tbl-btn tbl-btn-primary real-action" data-bs-toggle="modal" data-bs-target="#editPOModal-{{ $po->id }}"><i class="bi bi-pencil"></i> Edit</button>
+                            <form action="{{ route('buyers.destroy', $po->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this purchase order?');">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="tbl-btn" style="color:var(--brand-red);"><i class="bi bi-trash"></i></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
+
+                <!-- Edit PO Modal -->
+                <div class="modal fade" id="editPOModal-{{ $po->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 shadow">
+                            <div class="modal-header border-bottom-0 pb-0">
+                                <h5 class="modal-title fw-bold">Edit Purchase Order</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('buyers.update', $po->id) }}" method="POST">
+                                @csrf @method('PUT')
+                                <div class="modal-body py-3 text-start">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Buyer</label>
+                                            <select class="form-select" name="buyer_id" required>
+                                                @foreach($buyers as $b)
+                                                    <option value="{{ $b->id }}" {{ $po->buyer_id == $b->id ? 'selected' : '' }}>{{ $b->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">PO Number</label>
+                                            <input type="text" class="form-control" name="po_number" value="{{ $po->po_number }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Style Name</label>
+                                            <input type="text" class="form-control" name="style_name" value="{{ $po->style_name }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Style Code</label>
+                                            <input type="text" class="form-control" name="style_code" value="{{ $po->style_code }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Season</label>
+                                            <input type="text" class="form-control" name="season" value="{{ $po->season }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Order Qty</label>
+                                            <input type="number" class="form-control" name="order_qty" value="{{ $po->order_qty }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Delivery Date</label>
+                                            <input type="date" class="form-control" name="delivery_date" value="{{ $po->delivery_date }}" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label">Status</label>
+                                            <select class="form-select" name="status">
+                                                @foreach(['Open', 'Fabric Pending', 'Ready to Cut', 'In Production', 'Packed', 'Closed', 'Late'] as $status)
+                                                    <option value="{{ $status }}" {{ $po->status == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer border-top-0 pt-0">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" style="background:var(--brand-green);border-color:var(--brand-green);">Update Order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 @empty
                 <tr>
                     <td colspan="10" class="text-center py-4 text-muted">No purchase orders found.</td>

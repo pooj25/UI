@@ -415,9 +415,65 @@
                 <td>
                     <div style="display: flex; gap: 0.5rem;">
                         <a href="{{ route('suppliers.show', $supplier) }}" class="tbl-btn tbl-btn-primary">Open</a>
+                        <button class="tbl-btn real-action" data-bs-toggle="modal" data-bs-target="#editSupplierModal-{{ $supplier->id }}">Edit</button>
+                        <form action="{{ route('suppliers.destroy', $supplier) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this supplier?');">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="tbl-btn" style="color:var(--brand-red);">Delete</button>
+                        </form>
                     </div>
                 </td>
             </tr>
+
+            <!-- Edit Supplier Modal -->
+            <div class="modal fade" id="editSupplierModal-{{ $supplier->id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0 shadow">
+                        <div class="modal-header border-bottom-0 pb-0">
+                            <h5 class="modal-title fw-bold">Edit Supplier</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('suppliers.update', $supplier) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body py-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Supplier Name</label>
+                                        <input type="text" class="form-control" name="name" value="{{ $supplier->name }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Supplier Code</label>
+                                        <input type="text" class="form-control font-mono" name="code" value="{{ $supplier->code }}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-select" name="category">
+                                            @foreach(['Fabric Mill', 'Trim Supplier', 'Dyeing House'] as $cat)
+                                                <option value="{{ $cat }}" {{ $supplier->category == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Contact Person</label>
+                                        <input type="text" class="form-control" name="contact_person" value="{{ $supplier->contact_person }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" class="form-control" name="phone" value="{{ $supplier->phone }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email" value="{{ $supplier->email }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-top-0 pt-0">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary" style="background:var(--brand-green);border-color:var(--brand-green);">Update Supplier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             @empty
             <tr>
                 <td colspan="7" class="text-center py-4 text-muted">No suppliers found.</td>

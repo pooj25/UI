@@ -42,4 +42,26 @@ class BomController extends Controller
         $bom->load('items');
         return view('bom.show', compact('bom'));
     }
+
+    public function update(Request $request, Bom $bom)
+    {
+        $validated = $request->validate([
+            'bom_code' => 'required|unique:boms,bom_code,' . $bom->id,
+            'style_code' => 'required|string',
+            'buyer_name' => 'nullable|string',
+            'season' => 'nullable|string',
+            'garment_type' => 'nullable|string',
+            'status' => 'required|string',
+        ]);
+
+        $bom->update($validated);
+
+        return redirect()->route('bom.index')->with('success', 'BOM updated successfully.');
+    }
+
+    public function destroy(Bom $bom)
+    {
+        $bom->delete();
+        return redirect()->route('bom.index')->with('success', 'BOM deleted successfully.');
+    }
 }

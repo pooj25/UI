@@ -43,4 +43,27 @@ class SupplierController extends Controller
     {
         return view('suppliers.show', compact('supplier'));
     }
+
+    public function update(Request $request, Supplier $supplier)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255|unique:suppliers,code,' . $supplier->id,
+            'category' => 'nullable|string',
+            'contact_person' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'email' => 'nullable|email',
+            'city' => 'nullable|string',
+        ]);
+
+        $supplier->update($validated);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
+    }
+
+    public function destroy(Supplier $supplier)
+    {
+        $supplier->delete();
+        return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully.');
+    }
 }

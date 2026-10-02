@@ -563,6 +563,9 @@
 
                 // A. EDIT Action
                 if (btnText.includes('edit') || targetBtn.classList.contains('btn-edit') || targetBtn.querySelector('.bi-pencil')) {
+                    if (targetBtn.hasAttribute('data-bs-target') || targetBtn.classList.contains('real-action')) {
+                        return; // Allow real modals/links to proceed
+                    }
                     e.preventDefault();
                     activeEditingRow = row;
                     const rowTitle = row ? (row.querySelector('td:nth-child(2), td:first-child')?.textContent?.trim() || 'Record') : 'Record';

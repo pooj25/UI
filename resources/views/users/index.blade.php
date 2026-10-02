@@ -208,10 +208,76 @@
                         @endif
                     </td>
                     <td class="text-end">
-                        <button class="table-action-btn"><i class="bi bi-pencil"></i> Edit</button>
-                        <button class="table-action-btn table-action-danger"><i class="bi bi-ban"></i> Disable</button>
+                        <button class="table-action-btn real-action" data-bs-toggle="modal" data-bs-target="#editUserModal-{{ $user->id }}">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                        <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Disable this user?');">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="table-action-btn table-action-danger real-action"><i class="bi bi-ban"></i> Disable</button>
+                        </form>
                     </td>
                 </tr>
+
+                <!-- Edit User Modal -->
+                <div class="modal fade" id="editUserModal-{{ $user->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow">
+                            <div class="modal-header border-bottom-0 pb-0">
+                                <h5 class="modal-title fw-bold">Edit System User</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('users.update', $user) }}" method="POST">
+                                @csrf @method('PUT')
+                                <div class="modal-body py-3 text-start">
+                                    <div class="mb-3">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" name="name" value="{{ $user->name }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Role</label>
+                                        <select class="form-select" name="role" required>
+                                            @foreach(['Admin','Manager','Supervisor','Operator','QC Inspector'] as $r)
+                                                <option value="{{ $r }}" {{ $user->role == $r ? 'selected' : '' }}>{{ $r }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Line / Zone Assignment</label>
+                                        <select class="form-select" name="line_zone">
+                                            @foreach(['Warehouse','Cutting Floor','Sewing Line A','Packing'] as $lz)
+                                                <option value="{{ $lz }}" {{ $user->line_zone == $lz ? 'selected' : '' }}>{{ $lz }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email / Username</label>
+                                        <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Employee ID</label>
+                                        <input type="text" class="form-control" name="employee_id" value="{{ $user->employee_id }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-select" name="status" required>
+                                            @foreach(['ACTIVE','INACTIVE','ON SHIFT','SUSPENDED'] as $st)
+                                                <option value="{{ $st }}" {{ $user->status == $st ? 'selected' : '' }}>{{ ucfirst(strtolower($st)) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password (Leave blank to keep current)</label>
+                                        <input type="password" class="form-control" name="password" placeholder="••••••••">
+                                    </div>
+                                </div>
+                                <div class="modal-footer border-top-0 pt-0">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" style="background:var(--primary);border-color:var(--primary);">Update User</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 @empty
                 <tr>
                     <td colspan="7" class="text-center py-4 text-muted">No users found.</td>

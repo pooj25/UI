@@ -225,9 +225,69 @@
                     <td class="text-end">
                         <div class="d-flex gap-1 justify-content-end">
                             <a href="{{ route('bom.show', $bom) }}" class="tbl-btn tbl-btn-primary"><i class="bi bi-box-arrow-up-right"></i> Open</a>
+                            <button class="tbl-btn real-action" data-bs-toggle="modal" data-bs-target="#editBomModal-{{ $bom->id }}"><i class="bi bi-pencil"></i> Edit</button>
+                            <form action="{{ route('bom.destroy', $bom) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this BOM?');">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="tbl-btn" style="color:var(--brand-red);"><i class="bi bi-trash"></i></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
+
+                <!-- Edit BOM Modal -->
+                <div class="modal fade" id="editBomModal-{{ $bom->id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 shadow">
+                            <div class="modal-header border-bottom-0 pb-0">
+                                <h5 class="modal-title fw-bold">Edit Bill of Materials</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('bom.update', $bom) }}" method="POST">
+                                @csrf @method('PUT')
+                                <div class="modal-body py-3 text-start">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">BOM Code</label>
+                                            <input type="text" class="form-control font-mono" name="bom_code" value="{{ $bom->bom_code }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Style Code</label>
+                                            <input type="text" class="form-control" name="style_code" value="{{ $bom->style_code }}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Buyer Name</label>
+                                            <input type="text" class="form-control" name="buyer_name" value="{{ $bom->buyer_name }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Season</label>
+                                            <select class="form-select" name="season">
+                                                @foreach(['SS26', 'AW26', 'SS25'] as $season)
+                                                    <option value="{{ $season }}" {{ $bom->season == $season ? 'selected' : '' }}>{{ $season }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Garment Type</label>
+                                            <input type="text" class="form-control" name="garment_type" value="{{ $bom->garment_type }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Status</label>
+                                            <select class="form-select" name="status">
+                                                @foreach(['Draft', 'Active', 'Pending Review', 'Frozen', 'Closed'] as $status)
+                                                    <option value="{{ $status }}" {{ $bom->status == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer border-top-0 pt-0">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" style="background:var(--primary);border-color:var(--primary);">Update BOM</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 @empty
                 <tr>
                     <td colspan="11" class="text-center py-4 text-muted">No BOMs found.</td>
